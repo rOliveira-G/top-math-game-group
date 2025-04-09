@@ -1,24 +1,24 @@
 import random
+class DadosFuncionais:
+    @staticmethod
+    def gerarNumeros():
+            num1 = random.randint(0, 9)
+            num2 = random.randint(0, 9)
+            return num1, num2
 
-n1 = random.randint(0,9)
-n2 = random.randint(0,9)
+    @staticmethod
+    def selecionarOperador():
+        return random.choice(["+", "-", "/", "*"])
 
-op = ["+", "-", "*", "/"]
-
-esc_op = random.choice(op)
-if esc_op == "+":
-    print(f"{n1} ? {n2} = {n1 + n2}")
-elif esc_op == "-":
-    print(f"{n1} ? {n2} = {n1 - n2}")
-elif esc_op == "*":
-    print(f"{n1} ? {n2} = {n1 * n2}")
-elif esc_op == "/":
-    print(f"{n1} ? {n2} = {n1 / n2}")
-else:
-    print("Invalid operator")
-    
-tentativa = input("Qual operador foi utilizado?\n+\n*\n-\n/")
-if tentativa == esc_op:
-    print("Correto")
-else:
-    print("Errado")
+    @staticmethod
+    def calcularResultado(a, b, op):
+        if op == "+":
+            return a + b
+        elif op == "-":
+            return a - b
+        elif op == "*":
+            return a * b
+        elif op == "/":
+            return round(a / (b if b != 0 else 1), 2)
+        else:
+            raise ValueError("Operador inválido")

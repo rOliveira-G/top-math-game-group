@@ -1,14 +1,15 @@
 import tkinter as tk
-from tela_instrucoes import TelaInstrucoes 
+from tela_instrucoes import TelaInstrucoes
+from tela_jogo import TelaJogo
 from utilitarios import resetaTela
 
 class TelaInicial:
     def __init__(self, root):
         self.root = root
         resetaTela(self.root)
-        self.root.title("The Math Game")
+        self.root.title("The Math Game - Abertura")
 
-    def frameTelaInicial(self):    
+    def frameTelaInicial(self):
         titulo = tk.Label(
             self.root,
             text="The Math Game",
@@ -16,6 +17,18 @@ class TelaInicial:
             fg="blue"
         )
         titulo.pack(pady=60)
+        
+        botao_intructions = tk.Button(
+            self.root,
+            text="Instructions",
+            font=("Arial", 16),
+            bg="green",
+            fg="white",
+            padx=20,
+            pady=10,
+            command=self.abrirInstrucoes
+        )
+        botao_intructions.pack(pady=20)
         
         botao_play = tk.Button(
             self.root,
@@ -25,7 +38,7 @@ class TelaInicial:
             fg="white",
             padx=20,
             pady=10,
-            command=self.abrirInstrucoes
+            command=self.abrirJogo
         )
         botao_play.pack(pady=20)
         
@@ -35,9 +48,11 @@ class TelaInicial:
             font=("Arial", 8)
         )
         rodape.pack(side="bottom", pady=10)
-
-        self.root.mainloop()
     
     def abrirInstrucoes(self):
-        tela_inst = TelaInstrucoes(self.root)
-        tela_inst.frameTelaInstrucoes()
+        tela_inf = TelaInstrucoes(self.root)
+        tela_inf.frameTelaInstrucoes()
+        
+    def abrirJogo(self):
+        tela_jogo = TelaJogo(self.root)
+        tela_jogo.frameTelaJogo(self.root,0,0)

@@ -1,5 +1,6 @@
 import random
 class DadosFuncionais:
+    
     @staticmethod
     def gerarNumeros():
             num1 = random.randint(0, 9)

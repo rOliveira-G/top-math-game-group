@@ -55,4 +55,4 @@ class TelaInicial:
         
     def abrirJogo(self):
         tela_jogo = TelaJogo(self.root)
-        tela_jogo.frameTelaJogo(self.root,0,0)
+        tela_jogo.frameTelaJogo()

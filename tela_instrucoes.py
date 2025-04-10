@@ -16,6 +16,12 @@ class TelaInstrucoes:
             fg="blue"
         )
         titulo.pack(pady=60)
+        texto = tk.Label(
+            self.root,
+            text="O jogo ira mostrar uma tela com uma equação matematica com o operador faltando,\nvocê tem que acertar qual o operador faltante para ganhar pontos",
+            font=("Arial", 14),
+            fg="black")
+        texto.pack(pady=20)
         botao_play = tk.Button(
             self.root,
             text="Play",
@@ -28,7 +34,13 @@ class TelaInstrucoes:
         )
         botao_play.pack(pady=20)
         
+        rodape = tk.Label(
+            self.root,
+            text="Desenvolvido por: Adrian Roberti, Pedro Henrique e Yan Heindrick (Senai Betim 2025)",
+            font=("Arial", 8)
+        )
+        rodape.pack(side="bottom", pady=10)
     
     def abrirJogo(self):
         tela_jogo = TelaJogo(self.root)
-        tela_jogo.frameTelaJogo(self.root,0,0)
+        tela_jogo.frameTelaJogo()

@@ -37,8 +37,10 @@ class DadosFuncionais:
         elif op == "*":
             return a * b
         elif op == "/":
-            return round(a / (b if b != 0 else 1), 2)
-        else:
-            raise ValueError("Operador inválido")
+            resultado = a / b
+            if resultado.is_integer():
+                return int(resultado)
+            else:
+                return round(resultado, 2)
         
     

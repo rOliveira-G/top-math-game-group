@@ -1,15 +1,15 @@
 import tkinter as tk
 from utilitarios import resetaTela
 from logica_jogo import DadosFuncionais
-from tkinter import messagebox
-import tela_instrucoes
+
+
 
 class TelaJogo:
     def __init__(self, root):
         self.root = root
         self.pontuacao = 0
         self.partida = 1
-        self.s, self.m = 00, 00
+        self.s, self.m = -1, 00
         self.tempo_id = None
 
     def frameTelaJogo(self):
@@ -22,6 +22,7 @@ class TelaJogo:
             font=("Arial", 8)
         )
         
+        
         rodape.pack(side="bottom", pady=10)
         
         if self.partida <= 20:
@@ -32,24 +33,33 @@ class TelaJogo:
             resetaTela(self.root)
             self.root.title("The Math Game - Jogo")
             
+            titulo = tk.Frame(self.root)
+            titulo.pack(side="top", pady=10)
+            
+            titulo = tk.Label(
+                titulo,
+                text="The Math Game",
+                font=("Arial", 32, "bold"),
+                fg="blue"
+            )
+            titulo.pack(side="top",pady=10)
+            
             cabecalho = tk.Frame(self.root)
             cabecalho.pack(pady=10)
             
             # Exibição da pontuação
-            tk.Label(cabecalho, text="Pontuação:").grid(row=1, column=0, padx=10)
-            tk.Label(cabecalho, text=str(self.pontuacao)).grid(row=1, column=1, padx=10)
+            tk.Label(cabecalho, text=f"Pontuação: {self.pontuacao}",font=("Arial", 10, "bold")).grid(row=0,column=0,padx=10)
             
             # Exibindo tempo 
-            self.label_tempo = tk.Label(cabecalho, text=f"Tempo: {self.m:02d}:{self.s:02d}")
-            self.label_tempo.grid(row=1, column=2, pady=10)
+            self.label_tempo = tk.Label(cabecalho, text=f"Tempo: {self.m:02d}:{self.s:02d}",font=("Arial", 10, "bold"))
+            self.label_tempo.grid(row=0,column=1,pady=10)
             
             # Exibição da partida
-            tk.Label(cabecalho, text="Partida:").grid(row=2, column=1, padx=10)
-            tk.Label(cabecalho, text=str(self.partida)).grid(row=2, column=2, padx=10)
+            tk.Label(cabecalho, text=f"Partida: {self.partida}",font=("Arial", 10, "bold")).grid(row=0,column=2,padx=10)
             
             # Botão de parar o jogo
-            botao_parar = tk.Button(cabecalho, text="Instruções", font=("Arial", 10), command=self.abrirInstrucoes)
-            botao_parar.grid(row=3, column=0, padx=0)
+            botao_inst = tk.Button(cabecalho, text="Instruções", font=("Arial", 15), bg="green", fg="white", command=self.abrirInstrucoes)
+            botao_inst.grid(row=1,column=1,padx=20)
             
             # Exibição dos números e operação
             numeros_frame = tk.Frame(self.root)
@@ -65,8 +75,8 @@ class TelaJogo:
             operacoes_frame.pack(pady=30)
             
             for operacao in ["+", "-", "*", "/"]:
-                tk.Button(operacoes_frame, text=operacao, font=("Arial", 16), width=5, height=5, 
-                          command=lambda op=operacao: self.verificarResposta(op, operador)).pack(side="left", padx=10)
+                tk.Button(operacoes_frame, text=operacao, font=("Arial", 16), bg="green", fg="white", width=5, height=5, 
+                          command=lambda op=operacao: self.verificarResposta(op, operador)).pack(side="left", padx=10, pady=10)
             
             rodape = tk.Label(
             self.root,
@@ -78,25 +88,21 @@ class TelaJogo:
             self.aumentarTempo()
             
         else:
-            self.finalizarJogo()
+            self.finalizarJogo(self.pontuacao)
 
     def verificarResposta(self, operacaoEsc, operacaoCorreta):
         if operacaoEsc == operacaoCorreta:
             if self.m<1 and self.s<1:
                 self.pontuacao += 6
-            elif self.m<1 and self.s<5:
+            elif self.m<1 and self.s<3:
                 self.pontuacao += 5
-            elif self.m<1 and self.s<10:
+            elif self.m<1 and self.s<5:
                 self.pontuacao += 3
-            elif self.m<1 and self.s<30:
+            elif self.m<1 and self.s<10:
                 self.pontuacao += 1
-            else:
-                self.m += 0.666
-            if self.m>=2:
-                messagebox.showinfo("Aviso:","Você é lento")
             
         self.partida += 1
-        self.s = 0
+        self.s = -1
         self.m = 0
         self.frameTelaJogo()
         
@@ -116,25 +122,14 @@ class TelaJogo:
         
 
     def abrirInstrucoes(self):
-        tela_inf = tela_instrucoes.TelaInstrucoes(self.root)
+        if self.tempo_id:
+            self.root.after_cancel(self.tempo_id)
+            self.tempo_id = None
+        from tela_instrucoes import TelaInstrucoes
+        tela_inf = TelaInstrucoes(self.root)
         tela_inf.frameTelaInstrucoes()
 
-    def finalizarJogo(self):
-        resetaTela(self.root)
-        
-        tk.Label(self.root, text="Jogo Finalizado!", font=("Arial", 24)).pack(pady=20)
-        tk.Label(self.root, text=f"Pontuação final: {self.pontuacao}", font=("Arial", 20)).pack(pady=10)
-
-        tk.Button(self.root, text="Novo Jogo", command=self.reiniciarJogo).pack(pady=10)
-        tk.Button(self.root, text="Instruções", command=self.abrirInstrucoes).pack(pady=10)
-
-        tk.Label(
-            self.root,
-            text="Desenvolvido por: Adrian Roberti, Pedro Henrique e Yan Heindrick (Senai Betim 2025)",
-            font=("Arial", 8)
-        ).pack(side="bottom", pady=10)
-
-    def reiniciarJogo(self):
-        self.pontuacao = 0
-        self.partida = 1
-        self.frameTelaJogo()
+    def finalizarJogo(self,pontuacao):
+        from tela_fim import TelaFim
+        telaFim = TelaFim(self.root,pontuacao)
+        telaFim.frameTelaFim()

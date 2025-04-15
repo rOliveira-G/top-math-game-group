@@ -1,6 +1,4 @@
 import tkinter as tk
-from tela_instrucoes import TelaInstrucoes
-from tela_jogo import TelaJogo
 from utilitarios import resetaTela
 
 class TelaInicial:
@@ -50,9 +48,11 @@ class TelaInicial:
         rodape.pack(side="bottom", pady=10)
     
     def abrirInstrucoes(self):
+        from tela_instrucoes import TelaInstrucoes
         tela_inf = TelaInstrucoes(self.root)
         tela_inf.frameTelaInstrucoes()
         
     def abrirJogo(self):
+        from tela_jogo import TelaJogo
         tela_jogo = TelaJogo(self.root)
         tela_jogo.frameTelaJogo()

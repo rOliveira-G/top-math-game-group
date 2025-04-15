@@ -1,5 +1,4 @@
 import tkinter as tk
-from tela_jogo import TelaJogo
 from utilitarios import resetaTela
 
 class TelaInstrucoes:
@@ -9,13 +8,23 @@ class TelaInstrucoes:
         self.root.title("The Math Game - Instruções")
         
     def frameTelaInstrucoes(self):
+        
         titulo = tk.Label(
             self.root,
-            text="Instruções",
+            text="The Math Game",
             font=("Arial", 32, "bold"),
             fg="blue"
         )
-        titulo.pack(pady=60)
+        titulo.pack(pady=30)
+        
+        subtitulo = tk.Label(
+            self.root,
+            text="Instruções",
+            font=("Arial", 20, "bold"),
+            fg="blue"
+        )
+        subtitulo.pack(pady=30)
+        
         texto = tk.Label(
             self.root,
             text="O jogo ira mostrar uma tela com uma equação matematica com o operador faltando,\nvocê tem que acertar qual o operador faltante para ganhar pontos",
@@ -42,5 +51,6 @@ class TelaInstrucoes:
         rodape.pack(side="bottom", pady=10)
     
     def abrirJogo(self):
+        from tela_jogo import TelaJogo
         tela_jogo = TelaJogo(self.root)
         tela_jogo.frameTelaJogo()

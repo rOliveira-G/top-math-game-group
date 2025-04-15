@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from tela_abertura import TelaInicial
-from tela_instrucoes import TelaInstrucoes
 
 def frameGenerico():
     root = tk.Tk()
@@ -24,6 +22,7 @@ def frameGenerico():
 
 if __name__ == "__main__":
     root = frameGenerico()
+    from tela_abertura import TelaInicial
     tela_inicial = TelaInicial(root)
     tela_inicial.frameTelaInicial()
 

@@ -5,6 +5,7 @@ class TelaFim:
     def __init__(self, root, pontuacao):
         self.root = root
         self.pontuacao = pontuacao
+        self.root.title("The Math Game - Fim")
         
     def frameTelaFim(self):
         resetaTela(self.root)

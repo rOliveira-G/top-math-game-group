@@ -5,6 +5,7 @@ from utilitarios import mostraRodape
 from utilitarios import abrirInstrucoes
 from utilitarios import abrirFim
 from logica_jogo import DadosFuncionais
+import time
 
 
 
@@ -45,6 +46,10 @@ class TelaJogo:
         # Exibição da partida
         tk.Label(cabecalho, text=f"Partida: {self.partida}",font=("Arial", 10, "bold")).grid(row=0,column=2,padx=10)
         
+        # Mostrar pontuação aumentando
+        self.label_pontuacaoAumenta = tk.Label(cabecalho, text=f" ",font=("Arial", 20, "bold"), fg="green", width=5)
+        self.label_pontuacaoAumenta.grid(row=1,column=0,padx=30)
+        
         # Botão de voltar para as instrucoes
         botao_instrucoes = tk.Button(cabecalho, text="Instruções", font=("Arial", 15), bg="green", fg="white", command=self.abrirInstrucoes)
         botao_instrucoes.grid(row=1,column=1,padx=20)
@@ -67,6 +72,11 @@ class TelaJogo:
                         command=lambda op=operacao: self.verificarResposta(op, operador)).pack(side="left", padx=10, pady=10)
         
         self.aumentarTempo()
+        
+    def pontuacaoAnimada(self,texto):
+        if hasattr(self, "label_pontuacaoAumenta") and self.label_pontuacaoAumenta.winfo_exists():
+            self.root.after(0, lambda: self.label_pontuacaoAumenta.config(text=texto, fg="green"))
+            self.root.after(500, lambda: self.label_pontuacaoAumenta.config(text=" ", fg="green"))
 
     def verificarResposta(self, operacaoEsc, operacaoCorreta):
         if self.tempo_id:
@@ -75,12 +85,21 @@ class TelaJogo:
         if operacaoEsc == operacaoCorreta:
             if self.m<1 and self.s<1:
                 self.pontuacao += 6
+                self.pontuacaoAnimada("+6 Pts")
             elif self.m<1 and self.s<3:
                 self.pontuacao += 5
+                self.pontuacaoAnimada("+5 Pts")
             elif self.m<1 and self.s<5:
                 self.pontuacao += 3
+                self.pontuacaoAnimada("+3 Pts")
             elif self.m<1 and self.s<10:
                 self.pontuacao += 1
+                self.pontuacaoAnimada("+1 Pts")
+            else:
+                self.pontuacaoAnimada("+0 Pts")
+        else:
+            self.pontuacao -= 1
+            self.pontuacaoAnimada("-1 Pts")
             
         self.partida += 1
         self.s = -1
@@ -107,6 +126,7 @@ class TelaJogo:
         
     def abrirFim(self):
         #Função para parar o temporizador quando sair
+        time.sleep(500)
         if self.tempo_id:
             self.root.after_cancel(self.tempo_id)
             self.tempo_id = None

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-def frameGenerico():
+def framePrincipal():
     root = tk.Tk()
     root.geometry("800x600")
     root.title("The Math Game")
@@ -21,10 +21,10 @@ def frameGenerico():
     return root
 
 if __name__ == "__main__":
-    root = frameGenerico()
-    from tela_abertura import TelaInicial
-    tela_inicial = TelaInicial(root)
-    tela_inicial.frameTelaInicial()
+    root = framePrincipal()
+    from tela_abertura import TelaAbertura
+    tela_inicial = TelaAbertura(root)
+    tela_inicial.frameTelaAbertura()
 
     try:
         root.mainloop()

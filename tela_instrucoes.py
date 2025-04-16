@@ -1,5 +1,8 @@
 import tkinter as tk
 from utilitarios import resetaTela
+from utilitarios import mostraTitulo
+from utilitarios import mostraRodape
+from utilitarios import abrirJogo
 
 class TelaInstrucoes:
     def __init__(self, root):
@@ -9,29 +12,20 @@ class TelaInstrucoes:
         
     def frameTelaInstrucoes(self):
         
-        titulo = tk.Label(
-            self.root,
-            text="The Math Game",
-            font=("Arial", 32, "bold"),
-            fg="blue"
-        )
-        titulo.pack(pady=30)
-        
-        subtitulo = tk.Label(
-            self.root,
-            text="Instruções",
-            font=("Arial", 20, "bold"),
-            fg="blue"
-        )
-        subtitulo.pack(pady=30)
+        mostraTitulo(self.root)
+        mostraRodape(self.root)
         
         texto = tk.Label(
             self.root,
-            text="O jogo ira mostrar uma tela com uma equação matematica com o operador faltando,\nvocê tem que acertar qual o operador faltante para ganhar pontos",
+            text="Bem vindo ao The Math Game, neste jogo você tera que acertar qual a operação matemática"
+               "\nesta sendo realizada. Você podera escolher entre +, -, * e / que são as operações basi-"
+               "\ncas soma, subtração, multiplicação e divisão respectivamente. Quanto mais rapido você"
+               "\nresolver mais pontos ira ganhar, o jogo acaba na rodada 20. Boa sorte.",
             font=("Arial", 14),
             fg="black")
         texto.pack(pady=20)
-        botao_play = tk.Button(
+        
+        botao_jogar = tk.Button(
             self.root,
             text="Play",
             font=("Arial", 16),
@@ -39,18 +33,6 @@ class TelaInstrucoes:
             fg="white",
             padx=20,
             pady=10,
-            command=self.abrirJogo
+            command=lambda: abrirJogo(self.root)
         )
-        botao_play.pack(pady=20)
-        
-        rodape = tk.Label(
-            self.root,
-            text="Desenvolvido por: Adrian Roberti, Pedro Henrique e Yan Heindrick (Senai Betim 2025)",
-            font=("Arial", 8)
-        )
-        rodape.pack(side="bottom", pady=10)
-    
-    def abrirJogo(self):
-        from tela_jogo import TelaJogo
-        tela_jogo = TelaJogo(self.root)
-        tela_jogo.frameTelaJogo()
+        botao_jogar.pack(pady=20)

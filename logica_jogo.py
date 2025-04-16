@@ -42,5 +42,3 @@ class DadosFuncionais:
                 return int(resultado)
             else:
                 return round(resultado, 2)
-        
-    

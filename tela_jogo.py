@@ -72,10 +72,10 @@ class TelaJogo:
         
         self.aumentarTempo()
         
-    def pontuacaoAnimada(self,texto):
+    def pontuacaoAnimada(self,texto,cor):
         if hasattr(self, "label_pontuacaoAumenta") and self.label_pontuacaoAumenta.winfo_exists() and self.partida <20:
-            self.root.after(0, lambda: self.label_pontuacaoAumenta.config(text=texto, fg="green"))
-            self.root.after(500, lambda: self.label_pontuacaoAumenta.config(text=" ", fg="green"))
+            self.root.after(0, lambda: self.label_pontuacaoAumenta.config(text=texto, fg=cor))
+            self.root.after(500, lambda: self.label_pontuacaoAumenta.config(text=" ", fg=cor))
 
     def verificarResposta(self, operacaoEsc, operacaoCorreta):
         if self.tempo_id:
@@ -85,22 +85,22 @@ class TelaJogo:
             mixer.Sound("somAcerto.mp3").play()
             if self.m<1 and self.s<1:
                 self.pontuacao += 6
-                self.pontuacaoAnimada("+6 Pts")
+                self.pontuacaoAnimada("+6 Pts","green")
             elif self.m<1 and self.s<3:
                 self.pontuacao += 5
-                self.pontuacaoAnimada("+5 Pts")
+                self.pontuacaoAnimada("+5 Pts","green")
             elif self.m<1 and self.s<5:
                 self.pontuacao += 3
-                self.pontuacaoAnimada("+3 Pts")
+                self.pontuacaoAnimada("+3 Pts","green")
             elif self.m<1 and self.s<10:
                 self.pontuacao += 1
-                self.pontuacaoAnimada("+1 Pts")
+                self.pontuacaoAnimada("+1 Pts","green")
             else:
-                self.pontuacaoAnimada("+0 Pts")
+                self.pontuacaoAnimada("+0 Pts","green")
         else:
             mixer.Sound("somErro.mp3").play()
             self.pontuacao -= 1
-            self.pontuacaoAnimada("-1 Pts")
+            self.pontuacaoAnimada("-1 Pts","red")
             
         self.partida += 1
         self.s = -1

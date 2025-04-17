@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
+#instale pygame se n tiver
 def framePrincipal():
     root = tk.Tk()
     root.geometry("800x600")

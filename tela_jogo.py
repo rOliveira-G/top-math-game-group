@@ -5,15 +5,14 @@ from utilitarios import mostraRodape
 from utilitarios import abrirInstrucoes
 from utilitarios import abrirFim
 from logica_jogo import DadosFuncionais
-import time
-
-
+from pygame import mixer #instale pygame se n tiver
 
 class TelaJogo:
     def __init__(self, root):
         self.root = root
         resetaTela(self.root)
         self.root.title("The Math Game - Jogo")
+        mixer.init()
         self.pontuacao = 0
         self.partida = 1
         self.s, self.m = -1, 00
@@ -74,7 +73,7 @@ class TelaJogo:
         self.aumentarTempo()
         
     def pontuacaoAnimada(self,texto):
-        if hasattr(self, "label_pontuacaoAumenta") and self.label_pontuacaoAumenta.winfo_exists():
+        if hasattr(self, "label_pontuacaoAumenta") and self.label_pontuacaoAumenta.winfo_exists() and self.partida <20:
             self.root.after(0, lambda: self.label_pontuacaoAumenta.config(text=texto, fg="green"))
             self.root.after(500, lambda: self.label_pontuacaoAumenta.config(text=" ", fg="green"))
 
@@ -83,6 +82,7 @@ class TelaJogo:
             self.root.after_cancel(self.tempo_id)
             self.tempo_id = None
         if operacaoEsc == operacaoCorreta:
+            mixer.Sound("somAcerto.mp3").play()
             if self.m<1 and self.s<1:
                 self.pontuacao += 6
                 self.pontuacaoAnimada("+6 Pts")
@@ -98,6 +98,7 @@ class TelaJogo:
             else:
                 self.pontuacaoAnimada("+0 Pts")
         else:
+            mixer.Sound("somErro.mp3").play()
             self.pontuacao -= 1
             self.pontuacaoAnimada("-1 Pts")
             
@@ -126,15 +127,24 @@ class TelaJogo:
         
     def abrirFim(self):
         #Função para parar o temporizador quando sair
-        time.sleep(500)
         if self.tempo_id:
             self.root.after_cancel(self.tempo_id)
             self.tempo_id = None
-        abrirFim(self.root,self.pontuacao)
+        self.mostrarImagemTransicao()
+        self.root.after(500, lambda: abrirFim(self.root,self.pontuacao))
 
     def abrirInstrucoes(self):
         #Função para parar o temporizador quando sair
         if self.tempo_id:
             self.root.after_cancel(self.tempo_id)
             self.tempo_id = None
-        abrirInstrucoes(self.root)
+        self.mostrarImagemTransicao()
+        self.root.after(500, lambda: abrirInstrucoes(self.root))
+    
+    def mostrarImagemTransicao(self):
+        self.imagem_tk = tk.PhotoImage(file="carregar.png")
+        
+        self.imagem_tk = self.imagem_tk.subsample(2, 2)
+
+        self.label_imagem = tk.Label(self.root, image=self.imagem_tk, width=300, height=300)
+        self.label_imagem.place(relx=0.5, rely=0.5, anchor="center")

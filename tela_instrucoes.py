@@ -27,7 +27,7 @@ class TelaInstrucoes:
         
         botao_jogar = tk.Button(
             self.root,
-            text="Play",
+            text="Jogar",
             font=("Arial", 16),
             bg="green",
             fg="white",
